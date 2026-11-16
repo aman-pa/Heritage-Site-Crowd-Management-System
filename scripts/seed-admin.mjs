@@ -14,7 +14,7 @@ import bcrypt from 'bcryptjs';
 
 const MONGO_URI =
   process.env.MONGODB_URI ||
-  'mongodb://127.0.0.1:27017/heritageDB';
+  'mongodb+srv://anvaya123:kQfoUfl02QP3rP1E@cluster0.dlekiba.mongodb.net/heritageDB';
 
 // Parse command line arguments
 function parseArgs() {
