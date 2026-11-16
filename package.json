@@ -11,6 +11,7 @@
     "test": "node tests/run-all-booking-tests.mjs"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1169.0",
     "bcryptjs": "^2.4.3",
     "cashfree-pg": "^6.0.6",
     "clsx": "^2.1.1",

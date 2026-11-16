@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Landmark } from 'lucide-react';
 
 /**
  * ANVAYA Monument Image Component
- * Features image optimization, graceful error fallback, and subtle hover transition.
+ * Features image optimization, graceful unoptimized direct fallback, and architectural archive placeholder.
  */
 export default function SiteImage({
   src,
@@ -17,6 +17,14 @@ export default function SiteImage({
 }) {
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [useDirectSrc, setUseDirectSrc] = useState(false);
+
+  // Reset states whenever src changes
+  useEffect(() => {
+    setHasError(false);
+    setIsLoading(true);
+    setUseDirectSrc(false);
+  }, [src]);
 
   return (
     <div
@@ -42,21 +50,37 @@ export default function SiteImage({
             <div className="absolute inset-0 bg-heritage-sandstone-100 animate-pulse z-10" />
           )}
 
-          <Image
-            src={src}
-            alt={alt}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            priority={priority}
-            className={`object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105 ${
-              isLoading ? 'opacity-0' : 'opacity-100'
-            }`}
-            onLoad={() => setIsLoading(false)}
-            onError={() => {
-              setHasError(true);
-              setIsLoading(false);
-            }}
-          />
+          {useDirectSrc ? (
+            /* Direct unoptimized img fallback if Next.js Image optimization encounters an error */
+            <img
+              src={src}
+              alt={alt}
+              className={`w-full h-full object-cover object-center transition-opacity duration-300 ${
+                isLoading ? 'opacity-0' : 'opacity-100'
+              }`}
+              onLoad={() => setIsLoading(false)}
+              onError={() => {
+                setHasError(true);
+                setIsLoading(false);
+              }}
+            />
+          ) : (
+            <Image
+              src={src}
+              alt={alt}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              priority={priority}
+              className={`object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105 ${
+                isLoading ? 'opacity-0' : 'opacity-100'
+              }`}
+              onLoad={() => setIsLoading(false)}
+              onError={() => {
+                // If Next.js Image proxy/optimization encounters an error, try direct source first
+                setUseDirectSrc(true);
+              }}
+            />
+          )}
         </>
       )}
 

@@ -209,7 +209,8 @@ export default function EditHeritageSitePage({ params }) {
         setHasUnsavedImageChanges(true);
         setImageActionSuccess('Primary destination image uploaded. Remember to Save Changes to persist.');
       } else {
-        setUploadError(json.message || 'Failed to upload primary image.');
+        const errorMsg = json.hint ? `${json.message} — ${json.hint}` : (json.message || 'Failed to upload primary image.');
+        setUploadError(errorMsg);
       }
     } catch {
       setUploadError('Network communication error during image upload.');
@@ -285,7 +286,8 @@ export default function EditHeritageSitePage({ params }) {
             order: gallery.length + newItems.length,
           });
         } else {
-          setUploadError(`Failed to upload ${file.name}: ${json.message}`);
+          const errorMsg = json.hint ? `${json.message} — ${json.hint}` : (json.message || 'Failed to upload image.');
+          setUploadError(`Failed to upload ${file.name}: ${errorMsg}`);
         }
       } catch {
         setUploadError(`Network error while uploading ${file.name}.`);
@@ -340,7 +342,8 @@ export default function EditHeritageSitePage({ params }) {
         setHasUnsavedImageChanges(true);
         setImageActionSuccess(`Replaced gallery image #${targetIdx + 1}.`);
       } else {
-        setUploadError(json.message || 'Failed to replace image.');
+        const errorMsg = json.hint ? `${json.message} — ${json.hint}` : (json.message || 'Failed to replace image.');
+        setUploadError(errorMsg);
       }
     } catch {
       setUploadError('Network error while replacing gallery image.');
@@ -808,14 +811,13 @@ export default function EditHeritageSitePage({ params }) {
             {/* Primary Image Preview Card */}
             {primaryImage ? (
               <div className="relative rounded-2xl overflow-hidden border border-heritage-sandstone/30 shadow-heritage-sm bg-heritage-sandstone-100">
-                <div className="relative aspect-[21/9] sm:aspect-[16/7] w-full max-h-80">
-                  <SiteImage
-                    src={primaryImage}
-                    alt={formData.name || 'Primary monument banner'}
-                    aspectRatio="aspect-auto"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+                <SiteImage
+                  src={primaryImage}
+                  alt={formData.name || 'Primary monument banner'}
+                  aspectRatio="aspect-[21/9] sm:aspect-[16/7]"
+                  className="w-full max-h-80"
+                  priority
+                />
 
                 {/* Overlaid Badges */}
                 <div className="absolute top-3 left-3 flex items-center gap-2">

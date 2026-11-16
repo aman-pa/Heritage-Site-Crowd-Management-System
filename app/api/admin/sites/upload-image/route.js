@@ -62,9 +62,17 @@ export async function POST(request) {
       { status: 201 }
     );
   } catch (error) {
+    const isConfigError = error.message?.includes('cloud object storage is not configured');
     return NextResponse.json(
-      { success: false, message: 'Image upload failed.', error: error.message },
-      { status: 500 }
+      {
+        success: false,
+        code: isConfigError ? 'CLOUD_STORAGE_NOT_CONFIGURED' : 'IMAGE_UPLOAD_FAILED',
+        message: error.message || 'Image upload failed.',
+        hint: isConfigError
+          ? 'Configure AWS S3 (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_S3_BUCKET_NAME) or Cloudflare R2 in your Vercel Environment Variables.'
+          : undefined,
+      },
+      { status: isConfigError ? 503 : 500 }
     );
   }
 }
