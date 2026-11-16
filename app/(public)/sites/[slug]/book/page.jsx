@@ -26,6 +26,7 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import Badge from '@/components/ui/Badge';
 import Skeleton from '@/components/ui/Skeleton';
+import SiteImage from '@/components/site/SiteImage';
 import { getSiteBySlug } from '@/constants/heritageSites';
 import {
   TICKET_CATEGORIES,
@@ -40,8 +41,23 @@ export default function BookingWizardPage({ params }) {
 
   const slug = params.slug;
   const site = useMemo(() => getSiteBySlug(slug), [slug]);
+  const [liveSite, setLiveSite] = useState(site);
   const pricingCatalog = useMemo(() => getCatalogEntryForSite(slug), [slug]);
   const isTajMahal = site?.slug === 'taj-mahal' || site?.slug === 'taj';
+
+  // Load live site data from MongoDB if updated by admin
+  useEffect(() => {
+    async function loadLiveSite() {
+      try {
+        const res = await fetch(`/api/sites?slug=${slug}`);
+        const data = await res.json();
+        if (res.ok && data.success && data.data?.site) {
+          setLiveSite(data.data.site);
+        }
+      } catch {}
+    }
+    if (slug) loadLiveSite();
+  }, [slug]);
 
   // Date selection (default: today)
   const todayStr = useMemo(() => new Date().toISOString().slice(0, 10), []);
@@ -652,6 +668,17 @@ export default function BookingWizardPage({ params }) {
                     Official Tariff
                   </span>
                 </div>
+
+                {/* Monument Image Preview */}
+                {(liveSite?.image || site.image) && (
+                  <div className="rounded-2xl overflow-hidden border border-heritage-sandstone/30 shadow-xs">
+                    <SiteImage
+                      src={liveSite?.image || site.image}
+                      alt={site.name}
+                      aspectRatio="aspect-[16/9]"
+                    />
+                  </div>
+                )}
 
                 {/* Monument & Slot Details */}
                 <div className="space-y-3 text-xs font-sans">

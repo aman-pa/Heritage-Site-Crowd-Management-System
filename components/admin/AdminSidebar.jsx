@@ -19,6 +19,7 @@ import {
   RotateCcw,
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import Logo from '@/components/brand/Logo';
 
 export const ADMIN_NAV_SECTIONS = [
   {
@@ -72,9 +73,7 @@ export default function AdminSidebar({ isOpen, onClose }) {
         {/* Brand Header */}
         <div className="h-20 px-6 flex items-center justify-between border-b border-[#2C382C]/70">
           <Link href="/admin" className="flex items-center gap-3" onClick={onClose}>
-            <div className="w-10 h-10 rounded-xl bg-heritage-gold-500/15 border border-heritage-gold-500/30 flex items-center justify-center text-heritage-gold">
-              <ShieldCheck className="w-5 h-5 text-heritage-gold" />
-            </div>
+            <Logo size="sm" className="w-10 h-10 border-heritage-gold/50 shadow-md bg-heritage-ivory" />
             <div>
               <span className="font-serif text-lg font-bold tracking-wider text-heritage-ivory block leading-none">
                 ANVAYA

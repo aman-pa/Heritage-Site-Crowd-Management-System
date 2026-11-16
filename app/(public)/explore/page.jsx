@@ -28,11 +28,26 @@ function ExploreContent() {
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get('q') || '';
 
+  const [sites, setSites] = useState(HERITAGE_SITES);
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [selectedState, setSelectedState] = useState('all');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedCrowd, setSelectedCrowd] = useState('all');
   const [sortBy, setSortBy] = useState('name-asc');
+
+  // Load live administrator-managed monument images and data from MongoDB
+  useEffect(() => {
+    async function loadLiveSites() {
+      try {
+        const res = await fetch('/api/sites');
+        const data = await res.json();
+        if (res.ok && data.success && Array.isArray(data.data?.sites) && data.data.sites.length > 0) {
+          setSites(data.data.sites);
+        }
+      } catch (err) {}
+    }
+    loadLiveSites();
+  }, []);
 
   useEffect(() => {
     const q = searchParams.get('q');
@@ -44,7 +59,7 @@ function ExploreContent() {
 
   // Filter and Sort logic
   const filteredSites = useMemo(() => {
-    return HERITAGE_SITES.filter((site) => {
+    return sites.filter((site) => {
       // 1. Text Search matching name, location, state, category
       const q = searchQuery.toLowerCase().trim();
       const matchesQuery =

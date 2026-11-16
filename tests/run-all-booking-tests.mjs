@@ -6,7 +6,7 @@ try {
   process.loadEnvFile('.env.local');
 } catch (e) {}
 
-process.env.MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27018/heritageDB?replicaSet=rs0';
+process.env.MONGODB_URI = 'mongodb://127.0.0.1:27018/heritageDB?replicaSet=rs0';
 
 const PORT = 3015;
 
@@ -82,8 +82,14 @@ async function main() {
     const refundAuditModule = await import('./refund-lifecycle-audit.mjs');
     await refundAuditModule.runRefundAudit();
 
+    await new Promise((r) => setTimeout(r, 1000));
+
+    // Run Suite 14: Destination Image Management & Public Integration Audit
+    const destImageAuditModule = await import('./destination-images-audit.mjs');
+    await destImageAuditModule.runDestinationImagesAudit();
+
     console.log('\n================================================================');
-    console.log('ALL ANVAYA CORE, ADMIN, REFUND & CASHFREE AUDIT SUITES PASSED SUCCESSFULLY!');
+    console.log('ALL ANVAYA CORE, ADMIN, REFUND, CASHFREE & IMAGE AUDIT SUITES PASSED SUCCESSFULLY!');
     console.log('================================================================\n');
   } catch (err) {
     console.error('Execution error during audit:', err);

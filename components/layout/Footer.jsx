@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Landmark, Compass, ShieldCheck, Sparkles, Mail, MapPin } from 'lucide-react';
+import { Landmark, Compass, ShieldCheck, Sparkles, Mail, MapPin, Twitter, Instagram, Youtube } from 'lucide-react';
 import Logo from '@/components/brand/Logo';
 import BrandName from '@/components/brand/BrandName';
 import BrandTagline from '@/components/brand/BrandTagline';
@@ -145,19 +145,40 @@ export default function Footer() {
 
             {/* Outreach Channels */}
             <div className="mt-4 pt-2">
-              <span className="text-[10px] uppercase font-bold text-heritage-sandstone-400 tracking-wider block mb-2">
+              <span className="text-[10px] uppercase font-bold text-heritage-sandstone-400 tracking-wider block mb-3">
                 Heritage Awareness Channels
               </span>
-              <div className="flex items-center gap-2 text-xs">
-                <span className="px-2.5 py-1 rounded bg-heritage-charcoal-800 border border-heritage-sandstone/15 text-heritage-sandstone-300">
-                  X / Twitter
-                </span>
-                <span className="px-2.5 py-1 rounded bg-heritage-charcoal-800 border border-heritage-sandstone/15 text-heritage-sandstone-300">
-                  Instagram
-                </span>
-                <span className="px-2.5 py-1 rounded bg-heritage-charcoal-800 border border-heritage-sandstone/15 text-heritage-sandstone-300">
-                  YouTube
-                </span>
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://twitter.com/anvaya_heritage"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-heritage-sandstone-300 hover:text-heritage-gold transition-colors duration-200"
+                  aria-label="Follow us on X/Twitter"
+                >
+                  <Twitter className="w-5 h-5" />
+                  <span className="text-xs">Twitter</span>
+                </a>
+                <a
+                  href="https://instagram.com/anvaya_heritage"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-heritage-sandstone-300 hover:text-heritage-gold transition-colors duration-200"
+                  aria-label="Follow us on Instagram"
+                >
+                  <Instagram className="w-5 h-5" />
+                  <span className="text-xs">Instagram</span>
+                </a>
+                <a
+                  href="https://youtube.com/@anvaya_heritage"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-heritage-sandstone-300 hover:text-heritage-gold transition-colors duration-200"
+                  aria-label="Subscribe to our YouTube channel"
+                >
+                  <Youtube className="w-5 h-5" />
+                  <span className="text-xs">YouTube</span>
+                </a>
               </div>
             </div>
           </div>

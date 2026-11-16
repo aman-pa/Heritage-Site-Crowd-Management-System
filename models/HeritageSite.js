@@ -1,5 +1,99 @@
 import mongoose from 'mongoose';
 
+/**
+ * Gallery Image Sub-schema with structured metadata & ordering.
+ */
+const GalleryImageSchema = new mongoose.Schema(
+  {
+    url: {
+      type: String,
+      required: [true, 'Image URL is required.'],
+      trim: true,
+    },
+    storageKey: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    caption: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    alt: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    order: {
+      type: Number,
+      default: 0,
+    },
+    filename: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    size: {
+      type: Number,
+      default: 0,
+    },
+    mimeType: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    uploadedAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { _id: true }
+);
+
+/**
+ * Audit log sub-schema tracking all image modifications on this monument.
+ */
+const ImageAuditLogSchema = new mongoose.Schema(
+  {
+    action: {
+      type: String,
+      enum: [
+        'IMAGE_UPLOADED',
+        'PRIMARY_IMAGE_UPDATED',
+        'PRIMARY_IMAGE_REMOVED',
+        'GALLERY_UPDATED',
+        'IMAGE_REPLACED',
+        'IMAGE_DELETED',
+        'GALLERY_REORDERED',
+      ],
+      required: true,
+    },
+    performedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    adminEmail: {
+      type: String,
+      default: '',
+    },
+    adminName: {
+      type: String,
+      default: '',
+    },
+    details: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { _id: true }
+);
+
 const HeritageSiteSchema = new mongoose.Schema(
   {
     name: {
@@ -99,8 +193,37 @@ const HeritageSiteSchema = new mongoose.Schema(
       default: true,
       index: true,
     },
+    // Primary destination image URL (authoritative)
+    image: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    // Primary image metadata (storageKey, filename, caption, alt, source, size, mimeType)
+    primaryImageMetadata: {
+      url: { type: String, trim: true, default: '' },
+      storageKey: { type: String, trim: true, default: '' },
+      filename: { type: String, trim: true, default: '' },
+      caption: { type: String, trim: true, default: '' },
+      alt: { type: String, trim: true, default: '' },
+      source: { type: String, trim: true, default: '' },
+      size: { type: Number, default: 0 },
+      mimeType: { type: String, trim: true, default: '' },
+      uploadedAt: { type: Date, default: Date.now },
+    },
+    // Ordered architectural gallery collection
+    gallery: {
+      type: [GalleryImageSchema],
+      default: [],
+    },
+    // Legacy backward-compatible images array: [primaryImage, ...galleryUrls]
     images: {
       type: [String],
+      default: [],
+    },
+    // Complete audit log of all destination image updates
+    imageAuditLog: {
+      type: [ImageAuditLogSchema],
       default: [],
     },
     demonstrationCapacity: {
@@ -112,6 +235,26 @@ const HeritageSiteSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+// Pre-save synchronization hook to maintain backward compatibility
+HeritageSiteSchema.pre('save', function (next) {
+  // If primary image is not explicitly set, use images[0]
+  if (!this.image && Array.isArray(this.images) && this.images.length > 0) {
+    this.image = this.images[0];
+  }
+
+  // Ensure images array stays in sync with image + gallery
+  const galleryUrls = Array.isArray(this.gallery)
+    ? this.gallery.map((g) => g.url).filter(Boolean)
+    : [];
+
+  const combined = [this.image, ...galleryUrls].filter(Boolean);
+  if (combined.length > 0) {
+    this.images = combined;
+  }
+
+  next();
+});
 
 // Prevent re-compilation of existing model in Next.js hot-reload
 export default mongoose.models.HeritageSite ||

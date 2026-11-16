@@ -91,17 +91,17 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="bg-white rounded-3xl border border-heritage-sandstone/30 shadow-heritage-md p-8 sm:p-10 my-4">
+    <div className="bg-white rounded-2xl border border-heritage-sandstone/30 shadow-heritage-md p-8 sm:p-10 my-4">
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-heritage-sandstone-100 text-heritage-green mb-3 border border-heritage-sandstone/30">
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-heritage-green-50 text-heritage-green mb-4 border border-heritage-green-200">
           <UserPlus className="w-6 h-6" />
         </div>
-        <h1 className="font-serif text-2xl sm:text-3xl font-bold text-heritage-charcoal tracking-tight">
-          Create Visitor Account
+        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-heritage-charcoal tracking-tight">
+          Create Your Account
         </h1>
-        <p className="text-xs text-heritage-charcoal-500 mt-2 font-sans">
-          Register with ANVAYA to access dynamic crowd telemetry and reserve entry slots.
+        <p className="text-sm text-heritage-charcoal-500 mt-2 font-sans">
+          Register to access crowd telemetry and reserve entry slots
         </p>
       </div>
 
@@ -109,9 +109,9 @@ export default function RegisterPage() {
       {errorMessage && (
         <div
           role="alert"
-          className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-start gap-3"
+          className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-sm flex items-start gap-3"
         >
-          <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+          <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
           <div className="flex-1 font-sans">{errorMessage}</div>
         </div>
       )}
@@ -215,8 +215,8 @@ export default function RegisterPage() {
           disabled={loading}
         />
 
-        <p className="text-[11px] text-heritage-charcoal-400 font-sans leading-relaxed pt-1">
-          By registering, you agree to abide by the archaeological preservation guidelines of the Archaeological Survey of India (ASI).
+        <p className="text-xs text-heritage-charcoal-500 font-sans leading-relaxed pt-1">
+          By registering, you agree to abide by archaeological preservation guidelines.
         </p>
 
         <Button
@@ -224,21 +224,21 @@ export default function RegisterPage() {
           variant="primary"
           size="lg"
           className="w-full justify-center mt-3"
-          disabled={loading}
+          isLoading={loading}
           rightIcon={loading ? null : ArrowRight}
         >
-          {loading ? 'Creating Account...' : 'Register Visitor Account'}
+          {loading ? 'Creating account...' : 'Create Account'}
         </Button>
       </form>
 
       {/* Footnote & Login Link */}
-      <div className="mt-8 pt-6 border-t border-heritage-sandstone/20 text-center text-xs text-heritage-charcoal-500 font-sans">
+      <div className="mt-8 pt-6 border-t border-heritage-sandstone/20 text-center text-sm text-heritage-charcoal-500 font-sans">
         <span>Already have an account? </span>
         <Link
           href="/login"
-          className="font-semibold text-heritage-green hover:text-heritage-green-800 underline ml-1"
+          className="font-semibold text-heritage-green hover:text-heritage-green-700 underline ml-1"
         >
-          Sign In here
+          Sign in here
         </Link>
       </div>
     </div>

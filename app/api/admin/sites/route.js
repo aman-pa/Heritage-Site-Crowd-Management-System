@@ -78,6 +78,8 @@ export async function GET(request) {
           entryFee: site.entryFee,
           isFeatured: site.isFeatured,
           isActive: site.isActive,
+          image: site.image || (site.images && site.images[0]) || '',
+          galleryCount: (site.gallery || []).length,
           images: site.images,
           demonstrationCapacity: site.demonstrationCapacity,
           bookingCount,

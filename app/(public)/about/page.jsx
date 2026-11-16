@@ -14,6 +14,7 @@ import Container from '@/components/ui/Container';
 import SectionHeading from '@/components/ui/SectionHeading';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import Logo from '@/components/brand/Logo';
 
 export const metadata = {
   title: 'About ANVAYA – Smart Tourism & Heritage Preservation Platform',
@@ -27,59 +28,59 @@ export default function AboutPage() {
       <Container size="xl">
         {/* Page Header */}
         <SectionHeading
-          eyebrow="Conservation Mission"
-          title="About ANVAYA"
-          description="A smart-tourism platform engineered to preserve cultural heritage monuments across India through intelligent visitor flow management and capacity governance."
+          eyebrow="About ANVAYA"
+          title="Smart Tourism & Heritage Preservation"
+          description="A platform engineered to preserve India's cultural heritage through intelligent visitor flow management and capacity governance."
         />
 
         {/* Narrative Section 1: The Core Vision */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-14">
           <div className="lg:col-span-7 space-y-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-heritage-sandstone-700 bg-heritage-sandstone-100 px-2.5 py-1 rounded">
-              The Challenge & Vision
+            <span className="text-xs font-bold uppercase tracking-wider text-heritage-sandstone-700 bg-heritage-sandstone-100 px-2.5 py-1 rounded inline-block">
+              Our Mission
             </span>
 
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-heritage-charcoal leading-tight">
-              Balancing Unrestricted Access with Physical Preservation
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-heritage-charcoal leading-tight">
+              Balancing Access with Preservation
             </h2>
 
             <p className="text-sm sm:text-base text-heritage-charcoal-700 leading-relaxed">
-              India is home to thousands of monumental structures that represent centuries of artistic, mathematical, and architectural genius. Iconic destinations like the <strong className="text-heritage-charcoal">Taj Mahal</strong>, <strong className="text-heritage-charcoal">Red Fort</strong>, and <strong className="text-heritage-charcoal">Qutub Minar</strong> attract millions of domestic and international visitors annually.
+              India is home to thousands of monumental structures representing centuries of artistic and architectural genius. Iconic destinations like the <strong>Taj Mahal</strong>, <strong>Red Fort</strong>, and <strong>Qutub Minar</strong> attract millions of visitors annually.
             </p>
 
-            <p className="text-xs sm:text-sm text-heritage-charcoal-600 leading-relaxed">
-              However, unmanaged mass tourism threatens the very survival of these fragile wonders. Excessive footfall creates structural vibrations, marble floor abrasion, micro-climatic humidity fluctuations inside enclosed cave chambers, and hazardous pedestrian bottlenecks that degrade the tourist experience.
+            <p className="text-sm text-heritage-charcoal-600 leading-relaxed">
+              However, unmanaged mass tourism threatens these fragile wonders. Excessive footfall creates structural vibrations, surface abrasion, humidity fluctuations, and pedestrian bottlenecks that degrade both monuments and visitor experiences.
             </p>
 
-            <p className="text-xs sm:text-sm text-heritage-charcoal-600 leading-relaxed">
-              <strong className="text-heritage-green font-semibold">ANVAYA</strong> was conceived to solve this delicate dilemma by introducing <strong className="text-heritage-charcoal">Intelligent Carrying-Capacity Crowd Management</strong>: providing tourists with advance visibility into expected density, and offering curators atomic tools to prevent overbooking.
+            <p className="text-sm text-heritage-charcoal-600 leading-relaxed">
+              <strong className="text-heritage-green font-semibold">ANVAYA</strong> solves this through <strong>Intelligent Capacity Management</strong>: providing tourists with advance crowd visibility and offering curators tools to prevent overbooking.
             </p>
           </div>
 
           <div className="lg:col-span-5">
-            <Card className="p-8 bg-gradient-to-br from-white to-heritage-sandstone-50/60 border-heritage-sandstone/40 space-y-4 shadow-heritage-md">
-              <div className="w-12 h-12 rounded-xl bg-heritage-green flex items-center justify-center text-heritage-gold shadow-heritage-sm">
-                <Landmark className="w-6 h-6" />
+            <Card className="p-7 bg-gradient-to-br from-white to-heritage-sandstone-50/60 border-heritage-sandstone/40 space-y-4 shadow-heritage-md">
+              <div className="mb-3 flex justify-center">
+                <Logo variant="full" size="xl" />
               </div>
-              <h3 className="font-serif text-xl font-bold text-heritage-charcoal">
+              <h3 className="font-serif text-xl font-bold text-heritage-charcoal text-center">
                 Platform Objectives
               </h3>
-              <ul className="space-y-2.5 text-xs text-heritage-charcoal-600 font-sans">
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-heritage-green mt-1.5 shrink-0" />
-                  <span>Empower tourists to choose serene, unhurried visit windows.</span>
+              <ul className="space-y-2.5 text-sm text-heritage-charcoal-700 font-sans">
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-heritage-green mt-2 shrink-0" />
+                  <span>Empower tourists to choose optimal visit windows</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-heritage-green mt-1.5 shrink-0" />
-                  <span>Enforce architectural maximum carrying capacities at ticketing gates.</span>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-heritage-green mt-2 shrink-0" />
+                  <span>Enforce architectural carrying capacity limits</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-heritage-green mt-1.5 shrink-0" />
-                  <span>Provide transparent, verified historical and archaeological context.</span>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-heritage-green mt-2 shrink-0" />
+                  <span>Provide transparent historical context</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-heritage-green mt-1.5 shrink-0" />
-                  <span>Support automated time-slotted pass reservations with zero overbooking.</span>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-heritage-green mt-2 shrink-0" />
+                  <span>Support time-slotted reservations with zero overbooking</span>
                 </li>
               </ul>
             </Card>
@@ -87,97 +88,97 @@ export default function AboutPage() {
         </div>
 
         {/* Four Key Pillars */}
-        <div className="mb-16">
+        <div className="mb-14">
           <SectionHeading
-            eyebrow="Architecture"
-            title="Four Pillars of Smart Crowd Governance"
-            description="The core tenets underpinning ANVAYA's technical and operational methodology."
+            eyebrow="Core Features"
+            title="Four Pillars of Smart Tourism"
+            description="The foundational tenets of ANVAYA's technical and operational approach."
             align="center"
           />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="p-6">
-              <div className="w-10 h-10 rounded-lg bg-heritage-green-50 text-heritage-green flex items-center justify-center mb-4 border border-heritage-green-200">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <Card className="p-6 hover:shadow-heritage-md transition-shadow">
+              <div className="w-11 h-11 rounded-lg bg-heritage-green-50 text-heritage-green flex items-center justify-center mb-4 border border-heritage-green-200">
                 <BarChart3 className="w-5 h-5" />
               </div>
               <h3 className="font-serif text-lg font-bold text-heritage-charcoal mb-2">
-                1. Density Classification
+                Density Classification
               </h3>
-              <p className="text-xs text-heritage-charcoal-500 leading-relaxed">
-                Categorizes real-time occupancy into actionable thresholds: Low (0–40%), Moderate (41–70%), and High Density (71–100%) to guide visitor arrival timing.
+              <p className="text-sm text-heritage-charcoal-600 leading-relaxed">
+                Real-time occupancy categorized into Low (0–40%), Moderate (41–70%), and High (71–100%) thresholds.
               </p>
             </Card>
 
-            <Card className="p-6">
-              <div className="w-10 h-10 rounded-lg bg-heritage-sandstone-100 text-heritage-sandstone-800 flex items-center justify-center mb-4 border border-heritage-sandstone-300">
+            <Card className="p-6 hover:shadow-heritage-md transition-shadow">
+              <div className="w-11 h-11 rounded-lg bg-heritage-sandstone-100 text-heritage-sandstone-800 flex items-center justify-center mb-4 border border-heritage-sandstone-300">
                 <CalendarCheck className="w-5 h-5" />
               </div>
               <h3 className="font-serif text-lg font-bold text-heritage-charcoal mb-2">
-                2. Slotted Reservation
+                Slotted Reservations
               </h3>
-              <p className="text-xs text-heritage-charcoal-500 leading-relaxed">
-                Replaces chaotic on-site ticket queues with staggered 2-hour entry windows, leveling visitor inflow throughout operating hours.
+              <p className="text-sm text-heritage-charcoal-600 leading-relaxed">
+                Staggered 2-hour entry windows replace chaotic queues and level visitor inflow throughout the day.
               </p>
             </Card>
 
-            <Card className="p-6">
-              <div className="w-10 h-10 rounded-lg bg-heritage-gold-50 text-heritage-gold-800 flex items-center justify-center mb-4 border border-heritage-gold-300">
+            <Card className="p-6 hover:shadow-heritage-md transition-shadow">
+              <div className="w-11 h-11 rounded-lg bg-heritage-gold-50 text-heritage-gold-800 flex items-center justify-center mb-4 border border-heritage-gold-300">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <h3 className="font-serif text-lg font-bold text-heritage-charcoal mb-2">
-                3. Structural Preservation
+                Monument Protection
               </h3>
-              <p className="text-xs text-heritage-charcoal-500 leading-relaxed">
-                Protects fragile cultural fabric—such as the tempera murals of Ajanta or the marble inlay of the Taj Mahal—from microclimatic stress.
+              <p className="text-sm text-heritage-charcoal-600 leading-relaxed">
+                Protects fragile structures from microclimatic stress and physical wear caused by overcrowding.
               </p>
             </Card>
 
-            <Card className="p-6">
-              <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-800 flex items-center justify-center mb-4 border border-emerald-200">
+            <Card className="p-6 hover:shadow-heritage-md transition-shadow">
+              <div className="w-11 h-11 rounded-lg bg-emerald-50 text-emerald-800 flex items-center justify-center mb-4 border border-emerald-200">
                 <BookOpen className="w-5 h-5" />
               </div>
               <h3 className="font-serif text-lg font-bold text-heritage-charcoal mb-2">
-                4. Archival Knowledge
+                Historical Context
               </h3>
-              <p className="text-xs text-heritage-charcoal-500 leading-relaxed">
-                Delivers vetted archaeological dossiers, architectural blueprints, visiting rules, and official rates without commercial distortions.
+              <p className="text-sm text-heritage-charcoal-600 leading-relaxed">
+                Vetted archaeological information, architectural details, and official visiting guidelines.
               </p>
             </Card>
           </div>
         </div>
 
         {/* Heritage Conservation & Tourism Mission */}
-        <div className="bg-heritage-charcoal text-heritage-sandstone-200 rounded-2xl p-8 sm:p-10 border border-heritage-gold/25 space-y-6">
+        <div className="bg-heritage-charcoal text-heritage-sandstone-200 rounded-2xl p-8 sm:p-10 border border-heritage-gold/25 space-y-5">
           <div className="flex items-center gap-3 pb-4 border-b border-heritage-sandstone/15">
             <Sparkles className="w-6 h-6 text-heritage-gold" />
-            <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
+            <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white">
               Heritage Conservation & Tourism Excellence
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs sm:text-sm text-heritage-charcoal-300 leading-relaxed font-sans">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm text-heritage-charcoal-300 leading-relaxed font-sans">
             <div className="space-y-3">
-              <h4 className="font-serif text-base font-bold text-white uppercase tracking-wider">
+              <h4 className="font-serif text-lg font-bold text-white">
                 Intelligent Visitor Distribution
               </h4>
               <p>
-                ANVAYA leverages advanced capacity models and hourly quota allocations to safeguard centuries-old stone architecture against degradation caused by microclimatic fluctuations and structural strain.
+                ANVAYA uses capacity models and hourly quotas to safeguard stone architecture against degradation from microclimatic fluctuations and structural strain.
               </p>
             </div>
 
             <div className="space-y-3">
-              <h4 className="font-serif text-base font-bold text-white uppercase tracking-wider">
-                Guaranteed Turnstile Access
+              <h4 className="font-serif text-lg font-bold text-white">
+                Guaranteed Access
               </h4>
               <p>
-                By scheduling specific entry windows, visitors avoid lengthy ticket counter queues and experience India&apos;s timeless heritage under ideal atmospheric conditions and peaceful monument ambiance.
+                By scheduling entry windows, visitors avoid long queues and experience India's heritage under ideal conditions with peaceful ambiance.
               </p>
             </div>
           </div>
 
-          <div className="pt-4 flex flex-wrap items-center gap-4">
+          <div className="pt-3 flex flex-wrap items-center gap-3">
             <Button href="/explore" variant="gold" size="md" rightIcon={Compass}>
-              Explore Heritage Monuments
+              Explore Monuments
             </Button>
             <Button
               href="/crowd-status"
@@ -185,7 +186,7 @@ export default function AboutPage() {
               size="md"
               className="text-heritage-sandstone border-heritage-sandstone/40 hover:bg-heritage-sandstone/10"
             >
-              Live Crowd Telemetry
+              View Crowd Status
             </Button>
           </div>
         </div>

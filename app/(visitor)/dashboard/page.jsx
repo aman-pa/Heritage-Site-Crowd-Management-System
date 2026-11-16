@@ -27,6 +27,8 @@ import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import Skeleton from '@/components/ui/Skeleton';
 import Modal from '@/components/ui/Modal';
+import SiteImage from '@/components/site/SiteImage';
+import { getSiteBySlug } from '@/constants/heritageSites';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function VisitorDashboard() {
@@ -35,7 +37,26 @@ export default function VisitorDashboard() {
   const [bookings, setBookings] = useState([]);
   const [loadingBookings, setLoadingBookings] = useState(true);
   const [bookingError, setBookingError] = useState('');
-  const [activeTab, setActiveTab] = useState('upcoming'); // 'upcoming' | 'past'
+  const [activeTab, setActiveTab] = useState('upcoming');
+  const [liveSitesMap, setLiveSitesMap] = useState({});
+
+  // Fetch live sites map for monument imagery
+  useEffect(() => {
+    async function loadSitesMap() {
+      try {
+        const res = await fetch('/api/sites');
+        const data = await res.json();
+        if (res.ok && data.success && Array.isArray(data.data?.sites)) {
+          const map = {};
+          data.data.sites.forEach((s) => {
+            if (s.slug && s.image) map[s.slug] = s.image;
+          });
+          setLiveSitesMap(map);
+        }
+      } catch {}
+    }
+    loadSitesMap();
+  }, []); // 'upcoming' | 'past'
 
   // Cancellation Modal State
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -535,8 +556,18 @@ export default function VisitorDashboard() {
                       className="border border-heritage-sandstone/30 rounded-2xl p-5 sm:p-6 bg-white hover:border-heritage-sandstone/60 transition-all shadow-sm"
                     >
                       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
-                        {/* Left: Monument & Timing */}
-                        <div className="space-y-2">
+                        {/* Left: Monument Thumbnail & Details */}
+                        <div className="flex items-start sm:items-center gap-4">
+                          {(liveSitesMap[b.siteSlug] || getSiteBySlug(b.siteSlug)?.image) && (
+                            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 border border-heritage-sandstone/30 shadow-xs hidden sm:block">
+                              <SiteImage
+                                src={liveSitesMap[b.siteSlug] || getSiteBySlug(b.siteSlug)?.image}
+                                alt={b.siteName}
+                                aspectRatio="aspect-square"
+                              />
+                            </div>
+                          )}
+                          <div className="space-y-2">
                           <div className="flex flex-wrap items-center gap-2.5">
                             {isConfirmed && (
                               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
@@ -607,6 +638,7 @@ export default function VisitorDashboard() {
                             </p>
                           ) : null}
                         </div>
+                      </div>
 
                         {/* Right: Tariff & Action CTAs */}
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between lg:justify-end gap-4 shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0 border-heritage-sandstone/15">

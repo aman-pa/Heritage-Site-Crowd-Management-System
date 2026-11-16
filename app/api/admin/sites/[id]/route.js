@@ -64,7 +64,11 @@ export async function GET(request, { params }) {
           websiteUrl: site.websiteUrl,
           isFeatured: site.isFeatured,
           isActive: site.isActive,
-          images: site.images,
+          image: site.image || (site.images && site.images[0]) || '',
+          primaryImageMetadata: site.primaryImageMetadata || null,
+          gallery: site.gallery || [],
+          images: site.images || [],
+          imageAuditLog: (site.imageAuditLog || []).slice(-20),
           demonstrationCapacity: site.demonstrationCapacity,
           createdAt: site.createdAt,
           updatedAt: site.updatedAt,
@@ -135,6 +139,38 @@ export async function PUT(request, { params }) {
       }
     }
 
+    // Check image modifications for audit logging
+    const prevImage = site.image || (site.images && site.images[0]) || '';
+    const newImage = validation.data.image !== undefined ? validation.data.image : prevImage;
+    const isImageChanged = validation.data.image !== undefined && validation.data.image !== prevImage;
+    const isGalleryChanged = validation.data.gallery !== undefined;
+
+    if (isImageChanged || isGalleryChanged) {
+      const action = isImageChanged && !newImage
+        ? 'PRIMARY_IMAGE_REMOVED'
+        : isImageChanged
+        ? 'PRIMARY_IMAGE_UPDATED'
+        : 'GALLERY_UPDATED';
+
+      if (!site.imageAuditLog) {
+        site.imageAuditLog = [];
+      }
+
+      const adminUser = auth.adminUser || auth.user;
+      site.imageAuditLog.push({
+        action,
+        performedBy: adminUser?.id,
+        adminEmail: adminUser?.email || '',
+        adminName: adminUser?.name || 'Administrator',
+        details: {
+          previousImage: prevImage,
+          newImage: newImage,
+          galleryCount: (validation.data.gallery || site.gallery || []).length,
+        },
+        timestamp: new Date(),
+      });
+    }
+
     Object.assign(site, validation.data);
     await site.save();
 
@@ -146,6 +182,9 @@ export async function PUT(request, { params }) {
         slug: site.slug,
         name: site.name,
         isActive: site.isActive,
+        image: site.image,
+        gallery: site.gallery,
+        images: site.images,
       },
     });
   } catch (error) {

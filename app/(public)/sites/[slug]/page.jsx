@@ -30,6 +30,7 @@ import {
   getAllSiteSlugs,
   getCrowdClassification,
 } from '@/constants/heritageSites';
+import { getLiveSiteBySlug } from '@/lib/sites';
 
 /**
  * Next.js generateStaticParams for all initial pilot destinations.
@@ -42,7 +43,7 @@ export async function generateStaticParams() {
  * Dynamic SEO Metadata Generation for Heritage Site.
  */
 export async function generateMetadata({ params }) {
-  const site = getSiteBySlug(params.slug);
+  const site = await getLiveSiteBySlug(params.slug);
   if (!site) {
     return {
       title: 'Heritage Site Not Found | ANVAYA',
@@ -62,7 +63,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function SiteDetailPage({ params }) {
-  const site = getSiteBySlug(params.slug);
+  const site = await getLiveSiteBySlug(params.slug);
 
   if (!site) {
     notFound();

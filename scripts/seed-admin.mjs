@@ -14,7 +14,7 @@ import bcrypt from 'bcryptjs';
 
 const MONGO_URI =
   process.env.MONGODB_URI ||
-  'mongodb://127.0.0.1:27018/heritageDB?replicaSet=rs0';
+  'mongodb://127.0.0.1:27017/heritageDB';
 
 // Parse command line arguments
 function parseArgs() {

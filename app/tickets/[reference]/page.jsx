@@ -23,6 +23,7 @@ import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import Skeleton from '@/components/ui/Skeleton';
+import Logo from '@/components/brand/Logo';
 
 export default function DigitalTicketPage({ params }) {
   const reference = params.reference;
@@ -159,16 +160,19 @@ export default function DigitalTicketPage({ params }) {
           {/* Pass Header */}
           <div className="bg-heritage-charcoal text-white p-6 sm:p-8 border-b-4 border-heritage-gold">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <p className="text-[10px] uppercase font-mono tracking-widest text-heritage-gold font-bold">
-                  ANVAYA Smart Heritage Management System
-                </p>
-                <h1 className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-white mt-1">
-                  Digital Monument Entry Pass
-                </h1>
-                <p className="text-xs text-heritage-sandstone-300 font-sans mt-0.5">
-                  Electronic ticket dossier — retain for gate verification reference
-                </p>
+              <div className="flex items-center gap-4">
+                <Logo size="lg" className="w-14 h-14 bg-heritage-ivory border-2 border-heritage-gold/50 shadow-md shrink-0" />
+                <div>
+                  <p className="text-[10px] uppercase font-mono tracking-widest text-heritage-gold font-bold">
+                    ANVAYA Smart Heritage Management System
+                  </p>
+                  <h1 className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-white mt-1">
+                    Digital Monument Entry Pass
+                  </h1>
+                  <p className="text-xs text-heritage-sandstone-300 font-sans mt-0.5">
+                    Electronic ticket dossier — retain for gate verification reference
+                  </p>
+                </div>
               </div>
 
               <div className="text-left sm:text-right">
