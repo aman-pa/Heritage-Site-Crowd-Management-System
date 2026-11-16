@@ -48,7 +48,7 @@ export default function NewHeritageSitePage() {
     websiteUrl: 'https://asi.nic.in',
     isFeatured: false,
     isActive: true,
-    imageUrls: '/images/hero-banner.jpg',
+    imageUrls: '/images/monument-fallback.svg',
     maxPerHour: 1000,
     standardSlotCapacity: 200,
   });
@@ -555,7 +555,7 @@ export default function NewHeritageSitePage() {
                 rows={2}
                 value={formData.imageUrls}
                 onChange={(e) => setFormData({ ...formData, imageUrls: e.target.value })}
-                placeholder="/images/hero-banner.jpg"
+                placeholder="/images/destinations/taj-mahal/primary.jpg"
                 className="w-full px-3.5 py-2.5 rounded-xl border border-heritage-sandstone/30 font-mono text-[11px] focus:outline-none focus:ring-2 focus:ring-heritage-green/20 focus:border-heritage-green"
               />
             </div>

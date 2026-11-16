@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import HeritageSite from '@/models/HeritageSite';
-import { ensureHeritageSitesSeeded } from '@/lib/seedSites';
+import { ensureHeritageSitesSeeded, isCorruptedOrMismatchedImage } from '@/lib/seedSites';
 import { HERITAGE_SITES, getSiteBySlug } from '@/constants/heritageSites';
 
 export const dynamic = 'force-dynamic';
@@ -32,16 +32,24 @@ export async function GET(request) {
       }
 
       // Merge MongoDB record on top of base constants so admin-updated images take precedence
-      const primaryImage =
+      const rawPrimary =
         siteDoc?.image ||
-        (siteDoc?.images && siteDoc.images[0]) ||
-        baseSite?.image ||
-        '/images/monument-fallback.svg';
+        (siteDoc?.images && siteDoc.images[0]);
+      const primaryImage =
+        rawPrimary && !isCorruptedOrMismatchedImage(rawPrimary)
+          ? rawPrimary
+          : baseSite?.image || '/images/monument-fallback.svg';
 
-      const gallery =
-        siteDoc?.gallery && siteDoc.gallery.length > 0
-          ? siteDoc.gallery
-          : baseSite?.gallery || [];
+      let gallery = Array.isArray(siteDoc?.gallery)
+        ? siteDoc.gallery.filter((g) => {
+            const url = typeof g === 'string' ? g : g?.url;
+            return url && !isCorruptedOrMismatchedImage(url);
+          })
+        : [];
+
+      if (gallery.length === 0 && baseSite?.gallery && baseSite.gallery.length > 0) {
+        gallery = baseSite.gallery;
+      }
 
       return NextResponse.json({
         success: true,
@@ -66,16 +74,24 @@ export async function GET(request) {
       const plainDoc = isMongoose ? item.toObject() : item;
       const baseSite = getSiteBySlug(plainDoc.slug) || {};
 
-      const primaryImage =
+      const rawPrimary =
         plainDoc.image ||
-        (plainDoc.images && plainDoc.images[0]) ||
-        baseSite.image ||
-        '/images/monument-fallback.svg';
+        (plainDoc.images && plainDoc.images[0]);
+      const primaryImage =
+        rawPrimary && !isCorruptedOrMismatchedImage(rawPrimary)
+          ? rawPrimary
+          : baseSite.image || '/images/monument-fallback.svg';
 
-      const gallery =
-        plainDoc.gallery && plainDoc.gallery.length > 0
-          ? plainDoc.gallery
-          : baseSite.gallery || [];
+      let gallery = Array.isArray(plainDoc.gallery)
+        ? plainDoc.gallery.filter((g) => {
+            const url = typeof g === 'string' ? g : g?.url;
+            return url && !isCorruptedOrMismatchedImage(url);
+          })
+        : [];
+
+      if (gallery.length === 0 && baseSite.gallery && baseSite.gallery.length > 0) {
+        gallery = baseSite.gallery;
+      }
 
       return {
         ...baseSite,

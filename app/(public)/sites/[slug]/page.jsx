@@ -228,23 +228,29 @@ export default async function SiteDetailPage({ params }) {
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {gallery.map((item, idx) => (
-                    <div key={idx} className="group relative rounded-xl overflow-hidden bg-heritage-sandstone-100 border border-heritage-sandstone/30">
-                      <div className="relative aspect-[16/10] w-full">
-                        <Image
-                          src={item.url}
-                          alt={item.caption || `${name} perspective`}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      {item.caption && (
-                        <div className="p-3 bg-heritage-charcoal/90 text-white text-xs font-sans">
-                          {item.caption}
+                  {gallery.map((item, idx) => {
+                    const itemUrl = typeof item === 'string' ? item : item?.url;
+                    const itemCaption = typeof item === 'string' ? '' : item?.caption;
+                    if (!itemUrl) return null;
+                    return (
+                      <div key={idx} className="group relative rounded-xl overflow-hidden bg-heritage-sandstone-100 border border-heritage-sandstone/30">
+                        <div className="relative aspect-[16/10] w-full">
+                          <Image
+                            src={itemUrl}
+                            alt={itemCaption || `${name} perspective`}
+                            fill
+                            sizes="(max-width: 640px) 100vw, 50vw"
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
                         </div>
-                      )}
-                    </div>
-                  ))}
+                        {itemCaption && (
+                          <div className="p-3 bg-heritage-charcoal/90 text-white text-xs font-sans">
+                            {itemCaption}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </section>
             )}

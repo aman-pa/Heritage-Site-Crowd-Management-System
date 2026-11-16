@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import {
   ArrowLeft,
@@ -17,6 +18,8 @@ import {
   Layers,
   AlertCircle,
   Ticket,
+  Camera,
+  Image as ImageIcon,
 } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
@@ -195,8 +198,98 @@ export default function AdminSiteDetailPage({ params }) {
 
       {/* Detailed Specifications */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Column (8 cols): Description, History, Guidelines */}
+        {/* Left Column (8 cols): Imagery, Description, History, Guidelines */}
         <div className="lg:col-span-8 space-y-6">
+          {/* Monument Photography Card */}
+          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-heritage-sandstone/30 shadow-heritage-sm space-y-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <Camera className="w-5 h-5 text-heritage-green" />
+                <h2 className="font-serif text-lg font-bold text-heritage-charcoal">
+                  Monument Imagery
+                </h2>
+              </div>
+              <Link
+                href={`/admin/sites/${site.id}/edit`}
+                className="text-xs text-heritage-green hover:underline font-semibold"
+              >
+                Manage Photography
+              </Link>
+            </div>
+
+            {/* Primary Image Preview */}
+            <div className="space-y-2">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-heritage-charcoal-400 font-semibold block">
+                Primary Landmark Image
+              </span>
+              <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-heritage-sandstone-100 border border-heritage-sandstone/30">
+                {site.image ? (
+                  <Image
+                    src={site.image}
+                    alt={site.primaryImageMetadata?.alt || site.name}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 66vw"
+                    className="object-cover"
+                    priority
+                  />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center text-heritage-charcoal-400">
+                    <Landmark className="w-12 h-12 mb-2 text-heritage-sandstone-400" />
+                    <span className="text-xs">No primary image assigned</span>
+                  </div>
+                )}
+                {site.primaryImageMetadata?.caption && (
+                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 text-white">
+                    <p className="text-xs font-serif italic">
+                      {site.primaryImageMetadata.caption}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Gallery Images */}
+            {site.gallery && site.gallery.length > 0 && (
+              <div className="space-y-3 pt-4 border-t border-heritage-sandstone/20">
+                <div className="flex items-center gap-2">
+                  <ImageIcon className="w-4 h-4 text-heritage-charcoal-500" />
+                  <span className="text-xs font-semibold text-heritage-charcoal">
+                    Architectural Perspectives ({site.gallery.length})
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {site.gallery.map((item, idx) => {
+                    const url = typeof item === 'string' ? item : item.url;
+                    const caption = typeof item === 'string' ? '' : item.caption;
+                    const alt = typeof item === 'string' ? `${site.name} gallery image ${idx + 1}` : item.alt;
+
+                    return (
+                      <div
+                        key={idx}
+                        className="group relative aspect-[4/3] rounded-xl overflow-hidden bg-heritage-sandstone-100 border border-heritage-sandstone/30"
+                      >
+                        <Image
+                          src={url}
+                          alt={alt || `${site.name} angle`}
+                          fill
+                          sizes="200px"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        {caption && (
+                          <div className="absolute inset-x-0 bottom-0 bg-black/60 p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p className="text-[10px] text-white truncate text-center">
+                              {caption}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="bg-white p-6 sm:p-8 rounded-3xl border border-heritage-sandstone/30 shadow-heritage-sm space-y-4">
             <h2 className="font-serif text-lg font-bold text-heritage-charcoal">
               Overview & Architectural Identity

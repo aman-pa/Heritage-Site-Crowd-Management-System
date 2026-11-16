@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Landmark,
   Plus,
@@ -254,18 +255,35 @@ export default function AdminSitesPage() {
               <tbody className="divide-y divide-heritage-sandstone/15">
                 {sites.map((site) => (
                   <tr key={site.id} className="hover:bg-heritage-sandstone-50/40 transition-colors">
-                    {/* Monument Name & Slug */}
+                    {/* Monument Thumbnail, Name & Slug */}
                     <td className="py-4 px-6">
-                      <div className="space-y-0.5">
-                        <Link
-                          href={`/admin/sites/${site.id}`}
-                          className="font-serif font-bold text-sm text-heritage-charcoal hover:text-heritage-green transition-colors"
-                        >
-                          {site.name}
-                        </Link>
-                        <p className="font-mono text-[11px] text-heritage-charcoal-400">
-                          /{site.slug}
-                        </p>
+                      <div className="flex items-center gap-3">
+                        <div className="relative w-14 h-10 rounded-lg overflow-hidden bg-heritage-sandstone-100 border border-heritage-sandstone/30 shrink-0">
+                          {site.image ? (
+                            <Image
+                              src={site.image}
+                              alt={site.name}
+                              fill
+                              sizes="56px"
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-heritage-sandstone-200 text-heritage-charcoal-400">
+                              <Landmark className="w-4 h-4" />
+                            </div>
+                          )}
+                        </div>
+                        <div className="space-y-0.5 min-w-0">
+                          <Link
+                            href={`/admin/sites/${site.id}`}
+                            className="font-serif font-bold text-sm text-heritage-charcoal hover:text-heritage-green transition-colors block truncate"
+                          >
+                            {site.name}
+                          </Link>
+                          <p className="font-mono text-[11px] text-heritage-charcoal-400 truncate">
+                            /{site.slug}
+                          </p>
+                        </div>
                       </div>
                     </td>
 

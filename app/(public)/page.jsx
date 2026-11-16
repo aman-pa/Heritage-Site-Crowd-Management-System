@@ -75,8 +75,8 @@ export default function HomePage() {
         {/* Background Image with Darkened Editorial Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=2000&q=85"
-            alt="Taj Mahal under morning sky"
+            src="/images/destinations/taj-mahal/primary.jpg"
+            alt="Taj Mahal architectural vista in Agra"
             fill
             priority
             className="object-cover object-center opacity-25 scale-105"
